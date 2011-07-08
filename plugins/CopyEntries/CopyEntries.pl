@@ -32,7 +32,10 @@ sub init_registry {
                             label => 'Copy',
                             order => 100,
                             code => \&_copy_entries,
-                            permission => 'edit_all_posts',
+                            permit_action => {
+                                permit_action => 'create_new_entry',
+                                include_all => 1,
+                            },
                         },
                     },
                     page => {
@@ -40,7 +43,10 @@ sub init_registry {
                             label => 'Copy',
                             order => 100,
                             code => \&_copy_entries,
-                            permission => 'edit_all_posts',
+                            permit_action => {
+                                permit_action => 'create_new_page',
+                                include_all => 1,
+                            },
                         },
                     },
                 },
@@ -67,6 +73,9 @@ sub _copy_entries {
             $clone->authored_on( $ts );
             $clone->created_on( $ts );
             $clone->modified_on( $ts );
+            if ( my @tags = $entry->tags ) {
+                $clone->set_tags( @tags );
+            }
             $clone->save or die $clone->errstr;
         }
     }
