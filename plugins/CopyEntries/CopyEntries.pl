@@ -61,6 +61,10 @@ sub _copy_entries {
     my @tl = &offset_time_list( time, $blog );
     my $ts = sprintf "%04d%02d%02d%02d%02d%02d", $tl[ 5 ] + 1900, $tl[ 4 ] + 1, @tl[ 3, 2, 1, 0 ];
     my $class = $app->param( '_type' );
+    my $can_copy_entries = $class eq 'entry' ? $app->can_do( 'create_new_entry' ) : $app->can_do( 'create_new_page' ) ;
+    unless ( $can_copy_entries ) {
+        return $app->trans_error( 'Permission denied.' );
+    }
     my @entry_ids = $app->param( 'id' );
     for my $entry_id ( @entry_ids ) {
         my $entry = MT->model( $class )->load( { id => $entry_id } );
@@ -73,9 +77,6 @@ sub _copy_entries {
             $clone->authored_on( $ts );
             $clone->created_on( $ts );
             $clone->modified_on( $ts );
-            if ( my @tags = $entry->tags ) {
-                $clone->set_tags( @tags );
-            }
             $clone->save or die $clone->errstr;
         }
     }
