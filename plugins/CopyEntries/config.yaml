@@ -1,0 +1,27 @@
+id: CopyEntries
+name: CopyEntries
+key: copyentries
+version: 1.1
+description: <__trans phrase='Copy selected entries from list of entries.'>
+author_name: okayama
+author_link: http://weeeblog.net/
+l10n_class: CopyEntries::L10N
+applications:
+    cms:
+        list_actions:
+            entry:
+                copy_entries:
+                    label: Copy
+                    order: 100
+                    code: $copyentries::CopyEntries::Plugin::copy_entries
+                    permit_action:
+                        permit_action: create_new_entry
+                        include_all: 1
+            page:
+                copy_entries:
+                    label: Copy
+                    order: 100
+                    code: $copyentries::CopyEntries::Plugin::copy_entries
+                    permit_action:
+                        permit_action: create_new_page
+                        include_all: 1

@@ -1,6 +1,6 @@
-package MT::CopyEntries::L10N::ja;
+package CopyEntries::L10N::ja;
 use strict;
-use base qw/ MT::CopyEntries::L10N MT::L10N MT::Plugin::L10N /;
+use base qw( CopyEntries::L10N MT::L10N MT::Plugin::L10N );
 use vars qw( %Lexicon );
 
 our %Lexicon = (
